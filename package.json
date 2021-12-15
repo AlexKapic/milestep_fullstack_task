@@ -1,0 +1,45 @@
+{
+  "name": "milestep_fullstack_task",
+  "version": "1.0.0",
+  "description": "Task Management System",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint:editorconfig": "editorconfig-checker --exclude 'server/src/data/seed-data'",
+    "lint:fs": "ls-lint",
+    "lint:backend": "cd server && npm run lint",
+    "lint:frontend:js": "cd client && npm run lint:js",
+    "lint:frontend:css": "cd client && npm run lint:css",
+    "install:frontend": "cd client && npm install --production=false",
+    "install:backend": "cd server && npm install --production=false",
+    "install:all": "npm install && npm run install:frontend && npm run install:backend",
+    "build:frontend": "cd client && npm run build",
+    "build:backend": "cd server && npm run build",
+    "build": "npm run build:frontend && npm run build:backend",
+    "start:frontend": "cd client && npm run start",
+    "start:backend": "cd server && npm run start:dev",
+    "start:dev": "concurrently -k -p \"{name}\" -n \"FRONTEND,BACKEND\" -c \"green,blue\" \"npm:start:frontend\" \"npm:start:backend\"",
+    "start": "cd build && npm run start",
+    "prepare": "husky install"
+  },
+  "author": "Oleksandr Kapitula",
+  "license": "ISC",
+  "devDependencies": {
+    "@ls-lint/ls-lint": "1.10.0",
+    "@typescript-eslint/eslint-plugin": "5.7.0",
+    "@typescript-eslint/parser": "5.7.0",
+    "concurrently": "6.4.0",
+    "editorconfig-checker": "4.0.2",
+    "eslint": "8.4.1",
+    "husky": "7.0.4",
+    "lint-staged": "12.1.2",
+    "prettier": "2.5.1",
+    "pretty-quick": "3.1.2"
+  },
+  "dependencies": {},
+  "lint-staged": {
+    "*": "npm run lint:editorconfig && npm run lint:fs",
+    "server/**/*.{ts,tsx}": "npm run lint:backend",
+    "client/**/*.{ts,tsx}": "npm run lint:frontend:js",
+    "client/**/*.scss": "npm run lint:frontend:css"
+  }
+}
