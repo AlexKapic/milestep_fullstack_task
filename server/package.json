@@ -9,6 +9,11 @@
     "lint:start": "nodemon -r ./src/server.ts --exec \"npm run linter && ts-node\"",
     "lint": "npx eslint \"./src/**/*.ts\" --fix",
     "typeorm": "node_modules/.bin/ts-node node_modules/typeorm/cli.js",
+    "add-migration": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:generate -n",
+    "migrate": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:run",
+    "migration-revert": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:revert",
+    "generate-seed": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:create -d ./src/data/seeders -n",
+    "seed": "node_modules/.bin/ts-node ./src/data/seeders",
     "build:ts": "tsc && tscpaths -p tsconfig.json --src . --out build",
     "build:copy": "cp -r public package.json package-lock.json build",
     "build": "npm run build:ts && npm run build:copy"
