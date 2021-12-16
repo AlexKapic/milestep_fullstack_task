@@ -18,7 +18,7 @@ export class User extends AbstractEntity {
   @Column({ length: 200 })
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   confirmedAt: Date;
 
   @OneToMany(() => Task, (Task) => Task.author)
