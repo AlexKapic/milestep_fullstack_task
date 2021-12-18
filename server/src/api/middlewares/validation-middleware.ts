@@ -8,7 +8,7 @@ export const validationMiddleware =
     try {
       await schema.validate(data);
       next();
-    } catch (err) {
+    } catch (err: any) {
       res.status(400).json({ error: err.errors.join(', ') });
     }
   };

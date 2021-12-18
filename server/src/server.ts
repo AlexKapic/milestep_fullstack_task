@@ -10,6 +10,7 @@ import ormconfig from './config/orm-config';
 import { logger } from './common/utils/logger.util';
 import { auth as authorizationMiddleware } from './api/middlewares';
 import routes from './api/routes';
+import { errorHandlerMiddleware } from './api/middlewares/error-handler-middleware';
 
 const { port } = env.app;
 
@@ -24,6 +25,8 @@ app.use(cookieParser());
 app.use('/api/', authorizationMiddleware);
 
 routes(app);
+
+app.use(errorHandlerMiddleware);
 
 app.use('*', (_req, res) => {
   res.sendFile(path.join(__dirname, '/public/index.html'));

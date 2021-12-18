@@ -1,5 +1,6 @@
 import { Entity, Column, OneToMany, Unique } from 'typeorm';
 import { AbstractEntity } from '../abstract/abstract.entity';
+import { RefreshToken } from './refresh-token';
 import { Task } from './task';
 
 export const UNIQUE_USERNAME = 'unique_user_username_constraint';
@@ -23,4 +24,7 @@ export class User extends AbstractEntity {
 
   @OneToMany(() => Task, (Task) => Task.author)
   tasks: Task[];
+
+  @OneToMany(() => RefreshToken, (RefreshToken) => RefreshToken.user)
+  refreshTokens: RefreshToken[];
 }
