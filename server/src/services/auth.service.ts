@@ -2,13 +2,17 @@ import { getCustomRepository } from 'typeorm';
 import jwt from 'jsonwebtoken';
 import { HttpCode, HttpErrorMessage } from '../common/enums';
 import { HttpError } from '../common/exceptions';
-import { generateTokens } from '../common/utils/tokens.util';
+import {
+  decodeToken,
+  generateTokens,
+  generateVerifyToken,
+} from '../common/utils/tokens.util';
 import { UNIQUE_EMAIL, UNIQUE_USERNAME, User } from '../data/entities/user';
 import { RefreshTokenRepository } from '../data/repositories';
 import { env } from '../env';
 import { ILogin, ISignUp, ITokens } from '../common/interfaces/auth';
 import { IUser, IUserWithTokens } from '../common/interfaces/user';
-import { hash, verify } from '../common/utils';
+import { hash, sendMail, verify } from '../common/utils';
 import UserRepository from '../data/repositories/user.repository';
 
 export const signUp = async (
@@ -16,6 +20,7 @@ export const signUp = async (
 ): Promise<Omit<IUserWithTokens, 'refreshToken'>> => {
   const userRepository = getCustomRepository(UserRepository);
   const hashedPassword = await hash(body.password);
+  const isSignUp = true;
 
   try {
     const userData = {
@@ -25,7 +30,7 @@ export const signUp = async (
     };
 
     const user = await userRepository.save(userData);
-    return getIUserWithTokens(user);
+    return getIUserWithTokens(user, isSignUp);
   } catch (error: any) {
     if (error?.constraint === UNIQUE_USERNAME) {
       throw new HttpError({
@@ -85,8 +90,10 @@ export const signOut = async (
 
 const getIUserWithTokens = async (
   user: User,
+  isSignUp?: boolean,
 ): Promise<Omit<IUserWithTokens, 'refreshToken'>> => {
   const tokens = await setTokens(user);
+  isSignUp && verifyEmail(user, generateVerifyToken(user.id));
 
   const { id, username, email, tasks } = user;
   return {
@@ -132,5 +139,34 @@ export const refreshTokens = async (
       status: HttpCode.UNAUTHORIZED,
       message: HttpErrorMessage.UNAUTHORIZED,
     });
+  }
+};
+
+const verifyEmail = async (user: User, token: string): Promise<void> => {
+  const { app } = env;
+  const url = `${app.url}/confirm-email?token=${token}`;
+
+  await sendMail({
+    to: user.email,
+    subject: 'Confirm your email by click on the link ',
+    text: url,
+  });
+};
+
+export const confirmEmail = async (body: { token: string }): Promise<void> => {
+  const { token } = body;
+  if (!token) {
+    throw new HttpError({
+      status: HttpCode.BAD_REQUEST,
+      message: HttpErrorMessage.INVALID_TOKEN,
+    });
+  }
+
+  const { userId } = decodeToken(token);
+  const userRepository = getCustomRepository(UserRepository);
+  const user = await userRepository.findById(userId);
+
+  if (!user.confirmedAt) {
+    await userRepository.confirmEmail(userId);
   }
 };

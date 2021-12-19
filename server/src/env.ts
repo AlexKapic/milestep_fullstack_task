@@ -25,4 +25,13 @@ export const env = {
     enititiesDir: getOsEnv('TYPEORM_ENTITIES'),
     logging: isStringTrue(getOsEnv('TYPEORM_LOGGING')),
   },
+  mailer: {
+    service: getOsEnv('MAILER_SERVICE'),
+    auth: {
+      user: getOsEnv('MAILER_AUTH_USER'),
+      clientId: getOsEnv('MAILER_AUTH_CLIENT_ID'),
+      clientSecret: getOsEnv('MAILER_AUTH_CLIENT_SECRET'),
+      refreshToken: getOsEnv('MAILER_AUTH_REFRESH_TOKEN'),
+    },
+  },
 } as const;

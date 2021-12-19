@@ -8,6 +8,7 @@ import {
   signOut,
 } from '../../services/auth.service';
 import { validationMiddleware } from '../middlewares';
+
 const router: Router = Router();
 
 router.post(
@@ -30,6 +31,11 @@ router.post(
 router.post(
   '/sign-out',
   run((req) => signOut(req.body)),
+);
+
+router.post(
+  '/confirm-email',
+  run((req) => confirmEmail(req.body)),
 );
 
 export default router;

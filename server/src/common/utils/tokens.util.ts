@@ -4,6 +4,7 @@ import { env } from '../../env';
 import {
   ACCESS_TOKEN_EXPIRES_IN,
   REFRESH_TOKEN_EXPIRES_IN,
+  VERIFY_EMAIL_TOKEN_EXPIRES_IN,
 } from '../../config/jwt-config';
 import { ITokens } from '../interfaces/auth';
 
@@ -14,6 +15,9 @@ const generateAccessToken = (userId: string): string =>
 
 const generateRefreshToken = (): string =>
   jwt.sign({}, secretKey, { expiresIn: REFRESH_TOKEN_EXPIRES_IN });
+
+const generateVerifyToken = (userId: string): string =>
+  jwt.sign({ userId }, secretKey, { expiresIn: VERIFY_EMAIL_TOKEN_EXPIRES_IN });
 
 const generateTokens = (userId: string): ITokens => {
   return {
@@ -28,6 +32,7 @@ const decodeToken = (token: string): any =>
 export {
   generateAccessToken,
   generateRefreshToken,
+  generateVerifyToken,
   generateTokens,
   decodeToken,
 };
