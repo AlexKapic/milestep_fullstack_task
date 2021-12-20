@@ -5,7 +5,7 @@
   "main": "./src/server.ts",
   "scripts": {
     "start": "node ./server.js ",
-    "start:dev": "ts-node-dev ./src/server.ts && npx y-webrtc",
+    "start:dev": "ts-node-dev ./src/server.ts",
     "lint:start": "nodemon -r ./src/server.ts --exec \"npm run linter && ts-node\"",
     "lint": "npx eslint \"./src/**/*.ts\" --fix",
     "typeorm": "node_modules/.bin/ts-node node_modules/typeorm/cli.js",

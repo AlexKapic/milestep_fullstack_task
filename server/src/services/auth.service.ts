@@ -21,14 +21,13 @@ export const signUp = async (
   const userRepository = getCustomRepository(UserRepository);
   const hashedPassword = await hash(body.password);
   const isSignUp = true;
+  const userData = {
+    ...body,
+    email: body.email.toLowerCase(),
+    password: hashedPassword,
+  };
 
   try {
-    const userData = {
-      ...body,
-      email: body.email.toLowerCase(),
-      password: hashedPassword,
-    };
-
     const user = await userRepository.save(userData);
     return getIUserWithTokens(user, isSignUp);
   } catch (error: any) {

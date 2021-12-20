@@ -6,6 +6,7 @@ import {
   signUp,
   refreshTokens,
   signOut,
+  confirmEmail,
 } from '../../services/auth.service';
 import { validationMiddleware } from '../middlewares';
 

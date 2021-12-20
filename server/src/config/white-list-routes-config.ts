@@ -5,5 +5,5 @@ export default [
 
   '/auth/sign-out',
 
-  '/users/check-user-registration',
+  '/auth/confirm-email',
 ];
