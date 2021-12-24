@@ -1,3 +1,4 @@
+import { ConfirmEmail } from 'components/confirm-email';
 import { SignIn } from 'components/sign-in';
 import { SignUp } from 'components/sign-up';
 import React from 'react';
@@ -12,7 +13,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path={AppRoute.SIGN_IN} element={<SignIn />} />
         <Route path={AppRoute.SIGN_UP} element={<SignUp />} />
-        <Route path={AppRoute.CONFIRM_EMAIL} element={<h1>ConfirmEmail</h1>} />
+        <Route path={AppRoute.CONFIRM_EMAIL} element={<ConfirmEmail />} />
         <Route path={AppRoute.TASKS} element={<ProtectedRoute />}>
           <Route path={AppRoute.TASKS} element={<h1>Tasks</h1>} />
         </Route>

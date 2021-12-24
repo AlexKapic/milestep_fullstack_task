@@ -30,6 +30,14 @@ class AuthApi {
       contentType: ContentType.JSON,
     });
   }
+
+  public async confirmEmail(payload: { token: string }): Promise<void> {
+    return this.http.load(`${this.BASE}/confirm-email`, {
+      method: HttpMethod.POST,
+      payload: JSON.stringify(payload),
+      contentType: ContentType.JSON,
+    });
+  }
 }
 
 export const authApi = new AuthApi();
