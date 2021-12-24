@@ -1,31 +1,32 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { actions } from './slice';
 import { ActionType } from './actions-types';
 import { authApi } from '../../services';
 import { ISignIn, ISignUp } from 'common/interfaces/auth';
 import { setTokensLocalStorage } from './local-storage';
-import { IUserWithTokens } from 'common/interfaces/user';
+import { IUser } from 'common/interfaces/user';
 import { LocalStorageVariable } from 'common/enums';
 
-const signIn = createAsyncThunk(
-  ActionType.SET_USER,
-  async (signInPayload: ISignIn): Promise<IUserWithTokens> => {
+export const signIn = createAsyncThunk(
+  ActionType.GET_USER,
+  async (signInPayload: ISignIn): Promise<IUser> => {
     const signInResponse = await authApi.signIn(signInPayload);
     setTokensLocalStorage(signInResponse);
-    return signInResponse;
+    const { accessToken, refreshToken, ...rest } = signInResponse;
+    return rest;
   },
 );
 
-const signUp = createAsyncThunk(
+export const signUp = createAsyncThunk(
   ActionType.SET_USER,
-  async (signUpPayload: ISignUp): Promise<IUserWithTokens> => {
+  async (signUpPayload: ISignUp): Promise<IUser> => {
     const signUpResponse = await authApi.signUp(signUpPayload);
     setTokensLocalStorage(signUpResponse);
-    return signUpResponse;
+    const { accessToken, refreshToken, ...rest } = signUpResponse;
+    return rest;
   },
 );
 
-const signOut = createAsyncThunk(
+export const signOut = createAsyncThunk(
   ActionType.REMOVE_USER,
   async (): Promise<void> => {
     const refreshToken = localStorage.getItem(
@@ -39,7 +40,6 @@ const signOut = createAsyncThunk(
 );
 
 const authActions = {
-  ...actions,
   signIn,
   signUp,
   signOut,

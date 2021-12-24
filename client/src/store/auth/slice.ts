@@ -2,19 +2,17 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ReducerName } from '../../common/enums';
 import { IUser } from 'common/interfaces/user';
 import { ActionType } from './actions-types';
-import { authActions } from './actions';
+import { signIn, signUp } from './actions';
 import { RequestStatus } from 'common/enums/app/request-status.enum';
 
 type State = {
   user: IUser | null;
   requestStatus: RequestStatus;
-  isRefreshTokenExpired: boolean;
 };
 
 const initialState: State = {
   user: null,
   requestStatus: RequestStatus.IDLE,
-  isRefreshTokenExpired: false,
 };
 
 const { reducer, actions } = createSlice({
@@ -31,24 +29,24 @@ const { reducer, actions } = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(authActions.signIn.pending, (state) => {
+      .addCase(signIn.pending, (state) => {
         state.requestStatus = RequestStatus.LOADING;
       })
-      .addCase(authActions.signIn.fulfilled, (state, action) => {
+      .addCase(signIn.fulfilled, (state, action) => {
         state.user = action.payload;
         state.requestStatus = RequestStatus.SUCCEEDED;
       })
-      .addCase(authActions.signIn.rejected, (state) => {
+      .addCase(signIn.rejected, (state) => {
         state.requestStatus = RequestStatus.FAILED;
       })
-      .addCase(authActions.signUp.pending, (state) => {
+      .addCase(signUp.pending, (state) => {
         state.requestStatus = RequestStatus.LOADING;
       })
-      .addCase(authActions.signUp.fulfilled, (state, action) => {
+      .addCase(signUp.fulfilled, (state, action) => {
         state.user = action.payload;
         state.requestStatus = RequestStatus.SUCCEEDED;
       })
-      .addCase(authActions.signIn.rejected, (state) => {
+      .addCase(signUp.rejected, (state) => {
         state.requestStatus = RequestStatus.FAILED;
       });
   },

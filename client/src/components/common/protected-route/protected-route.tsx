@@ -1,7 +1,8 @@
-import { Navigate, Route, RouteProps } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { AppRoute, LocalStorageVariable } from '../../../common/enums';
 import { useLocation, useEffect, useNavigate } from 'hooks/hooks';
-export const ProtectedRoute = ({ ...rest }: RouteProps): JSX.Element => {
+
+export const ProtectedRoute = (): JSX.Element => {
   const token = localStorage.getItem(LocalStorageVariable.ACCESS_TOKEN);
   const { pathname } = useLocation();
   const isAuth = ([AppRoute.SIGN_IN, AppRoute.SIGN_UP] as string[]).includes(
@@ -15,18 +16,16 @@ export const ProtectedRoute = ({ ...rest }: RouteProps): JSX.Element => {
     }
   }, []);
 
-  if (token) {
-    return <Route {...rest} />;
-  } else {
-    return (
-      <Navigate
-        to={{
-          pathname: AppRoute.SIGN_IN,
-        }}
-        state={{
-          requestedPage: location.pathname,
-        }}
-      />
-    );
-  }
+  return token ? (
+    <Outlet />
+  ) : (
+    <Navigate
+      to={{
+        pathname: AppRoute.SIGN_IN,
+      }}
+      state={{
+        requestedPage: location.pathname,
+      }}
+    />
+  );
 };
