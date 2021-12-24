@@ -1,0 +1,29 @@
+.header {
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0px 0px 5px 0px;
+  &_clear {
+    margin-right: auto;
+    margin-left: auto;
+    visibility: hidden;
+  }
+  &_title {
+    font-size: 30px;
+    font-weight: 600;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  &_menu {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    margin-right: auto;
+    &_username {
+      font-weight: 600;
+      margin-right: 20px;
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ReducerName } from '../../common/enums';
 import { IUser } from 'common/interfaces/user';
 import { ActionType } from './actions-types';
-import { signIn, signUp } from './actions';
+import { signIn, signUp, loadUser } from './actions';
 import { RequestStatus } from 'common/enums/app/request-status.enum';
 
 type State = {
@@ -47,6 +47,16 @@ const { reducer, actions } = createSlice({
         state.requestStatus = RequestStatus.SUCCEEDED;
       })
       .addCase(signUp.rejected, (state) => {
+        state.requestStatus = RequestStatus.FAILED;
+      })
+      .addCase(loadUser.pending, (state) => {
+        state.requestStatus = RequestStatus.LOADING;
+      })
+      .addCase(loadUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.requestStatus = RequestStatus.SUCCEEDED;
+      })
+      .addCase(loadUser.rejected, (state) => {
         state.requestStatus = RequestStatus.FAILED;
       });
   },

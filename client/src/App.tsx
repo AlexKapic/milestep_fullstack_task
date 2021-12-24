@@ -1,6 +1,7 @@
 import { ConfirmEmail } from 'components/confirm-email';
 import { SignIn } from 'components/sign-in';
 import { SignUp } from 'components/sign-up';
+import { Tasks } from 'components/tasks';
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -15,7 +16,7 @@ const App: React.FC = () => {
         <Route path={AppRoute.SIGN_UP} element={<SignUp />} />
         <Route path={AppRoute.CONFIRM_EMAIL} element={<ConfirmEmail />} />
         <Route path={AppRoute.TASKS} element={<ProtectedRoute />}>
-          <Route path={AppRoute.TASKS} element={<h1>Tasks</h1>} />
+          <Route path={AppRoute.TASKS} element={<Tasks />} />
         </Route>
         <Route path={AppRoute.ROOT} element={<ProtectedRoute />}>
           <Route

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ActionType } from './actions-types';
-import { authApi } from '../../services';
+import { authApi, userApi } from '../../services';
 import { ISignIn, ISignUp } from 'common/interfaces/auth';
 import { setTokensLocalStorage } from './local-storage';
 import { IUser } from 'common/interfaces/user';
@@ -39,10 +39,16 @@ export const signOut = createAsyncThunk(
   },
 );
 
+export const loadUser = createAsyncThunk(
+  ActionType.LOAD_USER,
+  async (): Promise<IUser> => await userApi.getUser(),
+);
+
 const authActions = {
   signIn,
   signUp,
   signOut,
+  loadUser,
 };
 
 export { authActions };
