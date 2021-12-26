@@ -4,15 +4,16 @@ import { TaskCard } from './task-card';
 
 type Props = {
   tasks?: ITask[];
+  editHandler: (id: string) => void;
 };
 
-export const TaskContainer: React.FC<Props> = ({ tasks }) => {
+export const TaskContainer: React.FC<Props> = ({ tasks, editHandler }) => {
   return (
     <Container className="mt-4">
       <Row>
         {tasks?.map((task) => (
           <Col key={task.id} md={12} className="mb-4 btn fs-4">
-            <TaskCard task={task} />
+            <TaskCard task={task} editHandler={editHandler} />
           </Col>
         ))}
       </Row>

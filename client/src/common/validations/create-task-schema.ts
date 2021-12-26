@@ -20,19 +20,21 @@ export const createTaskSchema = yup
       .min(5, 'description must consist at least 5 characters')
       .required('this field is required'),
     priority: yup
-      .number()
-      .typeError('you must specify a number')
-      .integer('number must be a integer')
-      .positive('number must be a positive integer')
-      .min(0)
-      .max(100, 'number must be no more than 100')
+      .string()
+      .test(
+        '',
+        'must be beetwen 0 and 100 ',
+        (value) =>
+          (value as unknown as number) > 0 &&
+          (value as unknown as number) <= 100,
+      )
       .required('this field is required'),
     dueDate: yup
-      .date()
-      .typeError('you must specify a date')
-      .min(
-        new Date(Date.now()),
-        'date cannot be earlier than the current moment',
+      .string()
+      .test(
+        '',
+        "must be valid today's afterdate",
+        (value) => Date.parse(value as string) > Date.now(),
       )
       .required('this field is required'),
   });

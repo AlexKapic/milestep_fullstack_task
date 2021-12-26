@@ -1,9 +1,9 @@
 import { authReducer as auth } from './auth';
-// import { tasksReducer as tasks } from './tasks';
+import { taskReducer as task } from './tasks';
 
 const rootReducer = {
   auth,
-  // tasks,
+  task,
 };
 
 export { rootReducer };

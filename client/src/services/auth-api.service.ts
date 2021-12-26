@@ -7,18 +7,18 @@ class AuthApi {
   private http = http;
   private BASE = '/api/auth';
 
-  public async signIn(loginPayload: ISignIn): Promise<IUserWithTokens> {
+  public async signIn(payload: ISignIn): Promise<IUserWithTokens> {
     return this.http.load(`${this.BASE}/sign-in`, {
       method: HttpMethod.POST,
-      payload: JSON.stringify(loginPayload),
+      payload: JSON.stringify(payload),
       contentType: ContentType.JSON,
     });
   }
 
-  public async signUp(registerPayload: ISignUp): Promise<IUserWithTokens> {
+  public async signUp(payload: ISignUp): Promise<IUserWithTokens> {
     return this.http.load(`${this.BASE}/sign-up`, {
       method: HttpMethod.POST,
-      payload: JSON.stringify(registerPayload),
+      payload: JSON.stringify(payload),
       contentType: ContentType.JSON,
     });
   }

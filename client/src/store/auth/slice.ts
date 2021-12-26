@@ -23,6 +23,10 @@ const { reducer, actions } = createSlice({
       state.user = null;
       state.requestStatus = RequestStatus.IDLE;
     },
+    [ActionType.SET_TASKS]: (state, action) => {
+      if (state.user) state.user.tasks = action.payload;
+      state.requestStatus = RequestStatus.IDLE;
+    },
     [ActionType.RESET]: (state) => {
       Object.assign(state, initialState);
     },

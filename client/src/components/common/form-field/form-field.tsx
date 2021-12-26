@@ -31,6 +31,7 @@ export const FormField: React.FC<Props> = ({
       <Form.Control readOnly placeholder={value} />
     ) : (
       <Form.Control
+        as={type === 'textarea' ? 'textarea' : 'input'}
         {...register}
         type={type}
         placeholder={placeholder}

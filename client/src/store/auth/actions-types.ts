@@ -4,6 +4,7 @@ enum ActionType {
   LOAD_USER = 'loadUser',
   REMOVE_USER = 'removeUser',
   RESET = 'reset',
+  SET_TASKS = 'setTasks',
 }
 
 export { ActionType };

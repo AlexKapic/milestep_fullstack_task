@@ -14,7 +14,7 @@ class TaskRepository extends Repository<Task> {
 
   public findByUserAndSort(
     authorId: string,
-    sortBy: ISortTask,
+    sortBy?: ISortTask,
   ): Promise<Task[]> {
     return this.find({
       where: { authorId },

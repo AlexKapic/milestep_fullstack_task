@@ -63,11 +63,12 @@ export const getTasks = async (
 export const deleteTask = async (
   userId: string,
   taskId: string,
-): Promise<void> => {
+): Promise<ITask[]> => {
   const taskRepository = getCustomRepository(TaskRepository);
 
   try {
     await taskRepository.deleteByUserAndId(userId, taskId);
+    return taskRepository.findByUserAndSort(userId);
   } catch {
     throw new HttpError({
       status: HttpCode.INTERNAL_SERVER_ERROR,
@@ -80,13 +81,14 @@ export const editTask = async (
   userId: string,
   taskId: string,
   body: Omit<ITask, 'id' | 'authorId'>,
-): Promise<void> => {
+): Promise<ITask[]> => {
   const taskRepository = getCustomRepository(TaskRepository);
 
   try {
     const taskToEdit = await taskRepository.findByUserAndId(userId, taskId);
     const editedTask = { ...taskToEdit, ...body };
     await taskRepository.save(editedTask);
+    return taskRepository.findByUserAndSort(userId);
   } catch {
     throw new HttpError({
       status: HttpCode.INTERNAL_SERVER_ERROR,

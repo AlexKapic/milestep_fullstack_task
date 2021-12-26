@@ -14,13 +14,13 @@ import {
 
 const router: Router = Router();
 
-router.get(
+router.post(
   '/',
   run((req) => getTasks(req.userId, req.body)),
 );
 
 router.post(
-  '/',
+  '/create',
   validationMiddleware(createTaskSchema),
   run((req) => createTask(req.userId, req.body)),
 );
