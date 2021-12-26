@@ -52,6 +52,10 @@ export const Tasks: React.FC = () => {
       });
   };
 
+  const deleteHandler = (id: string): void => {
+    dispatch(taskActions.deleteTask(id));
+  };
+
   const onHideModal = (): void => {
     setIsModalShown(false);
     setAction({ edit: false, create: false });
@@ -67,7 +71,11 @@ export const Tasks: React.FC = () => {
     <>
       <Header name={user?.username} signOut={signOut} />
       <TaskManagament addHandler={addHandler} />
-      <TaskContainer tasks={user?.tasks} editHandler={editHandler} />
+      <TaskContainer
+        tasks={user?.tasks}
+        editHandler={editHandler}
+        deleteHandler={deleteHandler}
+      />
       <Modal
         show={isModalShown}
         onHide={onHideModal}

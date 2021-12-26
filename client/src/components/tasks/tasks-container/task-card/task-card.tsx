@@ -5,9 +5,14 @@ import styles from './styles.module.scss';
 type Props = {
   task: ITask;
   editHandler: (id: string) => void;
+  deleteHandler: (id: string) => void;
 };
 
-export const TaskCard: React.FC<Props> = ({ task, editHandler }) => {
+export const TaskCard: React.FC<Props> = ({
+  task,
+  editHandler,
+  deleteHandler,
+}) => {
   return (
     <Card className={styles.card} bg={task.isDone ? 'success' : 'secondary'}>
       <Card.Header className={styles.card_header}>
@@ -20,7 +25,10 @@ export const TaskCard: React.FC<Props> = ({ task, editHandler }) => {
           >
             Edit <i className="bi bi-pencil"></i>
           </Button>
-          <Button variant={task.isDone ? 'success' : 'secondary'}>
+          <Button
+            variant={task.isDone ? 'success' : 'secondary'}
+            onClick={(): void => deleteHandler(task.id)}
+          >
             Delete <i className="bi bi-trash"></i>
           </Button>
         </div>

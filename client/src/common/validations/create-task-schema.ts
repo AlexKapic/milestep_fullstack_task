@@ -33,6 +33,7 @@ export const createTaskSchema = yup
       .string()
       .test(
         '',
+        // eslint-disable-next-line
         "must be valid today's afterdate",
         (value) => Date.parse(value as string) > Date.now(),
       )
