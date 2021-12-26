@@ -1,6 +1,6 @@
 interface ISortTask {
   isDone?: 'ASC' | 'DESC';
-  duration?: 'ASC' | 'DESC';
+  dueDate?: 'ASC' | 'DESC';
   priority?: 'ASC' | 'DESC';
 }
 

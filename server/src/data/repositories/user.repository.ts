@@ -18,6 +18,7 @@ class UserRepository extends Repository<User> {
       .where('user.id = :id', { id })
       .leftJoin('user.tasks', 'tasks')
       .addSelect(['tasks.title', 'tasks.id', 'tasks.isDone'])
+      .orderBy('tasks.isDone', 'ASC')
       .getOne();
   }
 
