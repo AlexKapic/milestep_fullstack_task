@@ -17,13 +17,16 @@ import { TaskManagament } from './task-management';
 import { taskActions } from 'store/tasks';
 import { ITask } from 'common/interfaces/task';
 import { mapTaskToEditableTask } from '../../helpers';
+import { TaskInfoCard } from './task-info-card';
 
 export const Tasks: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const token = localStorage.getItem(LocalStorageVariable.ACCESS_TOKEN);
   const { user } = useAppSelector((state) => state.auth);
-  const [isModalShown, setIsModalShown] = useState(false);
+  const { currentTask } = useAppSelector((state) => state.task);
+  const [isFormShown, setIsFormShown] = useState(false);
+  const [isTaskShown, setIsTaskShown] = useState(false);
   const [action, setAction] = useState({ create: false, edit: false });
   const [editedTaskValues, setEditedTaskValues] = useState<ITask>();
   const [editedTaskId, setEditedTaskId] = useState<string>();
@@ -37,7 +40,7 @@ export const Tasks: React.FC = () => {
   };
 
   const addHandler = (): void => {
-    setIsModalShown(true);
+    setIsFormShown(true);
     setAction({ edit: false, create: true });
   };
 
@@ -48,7 +51,7 @@ export const Tasks: React.FC = () => {
       .then((task) => {
         setEditedTaskValues(mapTaskToEditableTask(task) as ITask);
         setAction({ edit: true, create: false });
-        setIsModalShown(true);
+        setIsFormShown(true);
       });
   };
 
@@ -57,9 +60,26 @@ export const Tasks: React.FC = () => {
   };
 
   const onHideModal = (): void => {
-    setIsModalShown(false);
+    setIsFormShown(false);
+    setIsTaskShown(false);
     setAction({ edit: false, create: false });
     setEditedTaskValues(undefined);
+  };
+
+  const showInfoCard = (id: string): void => {
+    dispatch(taskActions.getTask(id))
+      .unwrap()
+      .then(() => {
+        setIsTaskShown(true);
+      });
+  };
+
+  const toggleDone = (arg: { isDone: boolean; id: string }): void => {
+    dispatch(taskActions.doneTask(arg));
+  };
+
+  const toggleAllDone = (isDone: boolean): void => {
+    dispatch(taskActions.doneTasks({ isDone }));
   };
 
   useEffect(() => {
@@ -70,24 +90,35 @@ export const Tasks: React.FC = () => {
   return (
     <>
       <Header name={user?.username} signOut={signOut} />
-      <TaskManagament addHandler={addHandler} />
+      <TaskManagament addHandler={addHandler} toggleAllDone={toggleAllDone} />
       <TaskContainer
         tasks={user?.tasks}
         editHandler={editHandler}
         deleteHandler={deleteHandler}
+        showInfoCard={showInfoCard}
       />
       <Modal
-        show={isModalShown}
+        show={isFormShown || isTaskShown}
         onHide={onHideModal}
-        title={action.create ? 'Create new task' : 'Edit current task'}
+        title={
+          action.create
+            ? 'Create new task'
+            : action.edit
+            ? 'Edit current task'
+            : 'Task'
+        }
         size="lg"
       >
-        <TaskForm
-          action={action}
-          editValues={editedTaskValues}
-          submitClassName={commonStyles.submitButton}
-          taskId={editedTaskId}
-        />
+        {isFormShown ? (
+          <TaskForm
+            action={action}
+            editValues={editedTaskValues}
+            submitClassName={commonStyles.submitButton}
+            taskId={editedTaskId}
+          />
+        ) : (
+          <TaskInfoCard task={currentTask} toggleDone={toggleDone} />
+        )}
       </Modal>
     </>
   );

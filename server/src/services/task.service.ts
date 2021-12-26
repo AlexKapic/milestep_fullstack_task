@@ -100,12 +100,13 @@ export const editTask = async (
 export const doneTask = async (
   userId: string,
   taskId: string,
+  body: { isDone: boolean },
 ): Promise<ITask> => {
   const taskRepository = getCustomRepository(TaskRepository);
 
   try {
     const taskToEdit = await taskRepository.findByUserAndId(userId, taskId);
-    taskToEdit.isDone = !taskToEdit.isDone;
+    taskToEdit.isDone = body.isDone;
     await taskRepository.save(taskToEdit);
     return taskToEdit;
   } catch {

@@ -47,15 +47,15 @@ class TaskApi {
     isDone: boolean;
     id: string;
   }): Promise<ITask> {
-    return this.http.load(`${this.BASE}/${payload.id}`, {
+    return this.http.load(`${this.BASE}/done/${payload.id}`, {
       method: HttpMethod.PATCH,
-      payload: JSON.stringify(payload.isDone),
+      payload: JSON.stringify({ isDone: payload.isDone }),
       contentType: ContentType.JSON,
     });
   }
 
   public async doneTasks(payload: { isDone: boolean }): Promise<ITask[]> {
-    return this.http.load(`${this.BASE}/`, {
+    return this.http.load(`${this.BASE}/done`, {
       method: HttpMethod.PATCH,
       payload: JSON.stringify(payload),
       contentType: ContentType.JSON,

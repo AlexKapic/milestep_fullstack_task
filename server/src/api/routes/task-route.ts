@@ -43,7 +43,7 @@ router.put(
 
 router.patch(
   '/done/:id',
-  run((req) => doneTask(req.userId, req.params.id)),
+  run((req) => doneTask(req.userId, req.params.id, req.body)),
 );
 
 router.patch(
