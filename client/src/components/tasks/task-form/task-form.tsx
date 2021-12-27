@@ -14,6 +14,7 @@ type Props = {
   taskId?: string;
   submitClassName?: string;
   editValues?: ITaskCreate;
+  closeForm: () => void;
 };
 
 export const TaskForm: React.FC<Props> = ({
@@ -21,6 +22,7 @@ export const TaskForm: React.FC<Props> = ({
   submitClassName,
   taskId,
   editValues,
+  closeForm,
 }) => {
   const dispatch = useAppDispatch();
   const [generalError, setGeneralError] = useState('');
@@ -36,10 +38,14 @@ export const TaskForm: React.FC<Props> = ({
   const handleSubmitForm = async (data: ITaskCreate): Promise<void> => {
     try {
       action.create
-        ? await dispatch(taskActions.createTask(data)).unwrap()
+        ? await dispatch(taskActions.createTask(data))
+            .unwrap()
+            .then(() => closeForm())
         : await dispatch(
             taskActions.editTask({ payload: data, id: taskId as string }),
-          ).unwrap();
+          )
+            .unwrap()
+            .then(() => closeForm());
     } catch (err) {
       const error = err as HttpError;
       if (error.message === HttpErrorMessage.INVALID_LOGIN_DATA) {

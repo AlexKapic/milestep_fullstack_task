@@ -109,14 +109,16 @@ export const Tasks: React.FC = () => {
         }
         size="lg"
       >
-        {isFormShown ? (
+        {(isFormShown as unknown as Element) && (
           <TaskForm
             action={action}
             editValues={editedTaskValues}
             submitClassName={commonStyles.submitButton}
             taskId={editedTaskId}
+            closeForm={(): void => setIsFormShown(false)}
           />
-        ) : (
+        )}
+        {(isTaskShown as unknown as Element) && (
           <TaskInfoCard task={currentTask} toggleDone={toggleDone} />
         )}
       </Modal>
