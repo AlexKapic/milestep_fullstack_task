@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Task Management System",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint:editorconfig": "editorconfig-checker --exclude 'server/src/data/seed-data'",
     "lint:fs": "ls-lint",
     "lint:backend": "cd server && npm run lint",
@@ -22,6 +21,11 @@
     "prepare": "husky install"
   },
   "author": "Oleksandr Kapitula",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexKapic/milestep_fullstack_task.git"
+  },
+  "homepage": "https://github.com/AlexKapic/milestep_fullstack_task#readme",
   "license": "ISC",
   "devDependencies": {
     "@ls-lint/ls-lint": "1.10.0",
@@ -33,7 +37,8 @@
     "husky": "7.0.4",
     "lint-staged": "12.1.2",
     "prettier": "2.5.1",
-    "pretty-quick": "3.1.2"
+    "pretty-quick": "3.1.2",
+    "typescript": "^4.5.4"
   },
   "dependencies": {},
   "lint-staged": {

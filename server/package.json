@@ -1,0 +1,60 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "backend",
+  "main": "./src/server.ts",
+  "scripts": {
+    "start": "node ./server.js ",
+    "start:dev": "ts-node-dev ./src/server.ts",
+    "lint:start": "nodemon -r ./src/server.ts --exec \"npm run linter && ts-node\"",
+    "lint": "npx eslint \"./src/**/*.ts\" --fix",
+    "typeorm": "node_modules/.bin/ts-node node_modules/typeorm/cli.js",
+    "add-migration": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:generate -n",
+    "migrate": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:run",
+    "migration-revert": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:revert",
+    "generate-seed": "node_modules/.bin/ts-node node_modules/typeorm/cli.js migration:create -d ./src/data/seeders -n",
+    "seed": "node_modules/.bin/ts-node ./src/data/seeders",
+    "build:ts": "tsc && tscpaths -p tsconfig.json --src . --out build",
+    "build:copy": "cp -r public package.json package-lock.json build",
+    "build": "npm run build:ts && npm run build:copy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexKapic/milestep_fullstack_task.git"
+  },
+  "author": "Oleksandr Kapitula",
+  "license": "ISC",
+  "homepage": "https://github.com/AlexKapic/milestep_fullstack_task#readme",
+  "dependencies": {
+    "cookie-parser": "1.4.6",
+    "cors": "2.8.5",
+    "dotenv": "10.0.0",
+    "express": "4.17.1",
+    "googleapis": "92.0.0",
+    "jsonwebtoken": "8.5.1",
+    "nodemailer": "6.7.2",
+    "pg": "8.7.1",
+    "pg-connection-string": "2.5.0",
+    "pino": "7.5.1",
+    "pino-pretty": "7.3.0",
+    "reflect-metadata": "0.1.13",
+    "ts-node": "10.4.0",
+    "typeorm": "0.2.41",
+    "typescript": "4.5.4",
+    "yup": "0.32.11"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "1.4.2",
+    "@types/cors": "2.8.12",
+    "@types/express": "4.17.13",
+    "@types/jsonwebtoken": "8.5.6",
+    "@types/node": "16.11.13",
+    "@types/nodemailer": "6.4.4",
+    "eslint": "8.2.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.25.2",
+    "nodemon": "2.0.15",
+    "ts-node-dev": "1.1.8",
+    "tscpaths": "0.0.9"
+  }
+}

@@ -1,0 +1,16 @@
+.card {
+  &:hover {
+    box-shadow: 6px 5px 5px 2px;
+  }
+  .card_header {
+    color: white;
+    display: flex;
+    justify-content: space-around;
+  }
+  .card_body {
+    visibility: hidden;
+  }
+  &:hover .card_body {
+    visibility: visible;
+  }
+}
