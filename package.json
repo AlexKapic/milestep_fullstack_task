@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Task Management System",
   "scripts": {
+    "move:deploy": "mv server/build . && mv server/node_modules build && mv client/build/* build/public",
     "lint:editorconfig": "editorconfig-checker --exclude 'server/src/data/seed-data'",
     "lint:fs": "ls-lint",
     "lint:backend": "cd server && npm run lint",
@@ -18,7 +19,9 @@
     "start:backend": "cd server && npm run start:dev",
     "start:dev": "concurrently -k -p \"{name}\" -n \"FRONTEND,BACKEND\" -c \"green,blue\" \"npm:start:frontend\" \"npm:start:backend\"",
     "start": "cd build && npm run start",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "heroku-prebuild": "npm run install:all",
+    "heroku-postbuild": "npm run build && npm run move:deploy"
   },
   "author": "Oleksandr Kapitula",
   "repository": {
